@@ -1,5 +1,7 @@
-import {Vue} from 'vue/types/vue';
-import {PluginObject} from 'vue/types';
+// noinspection JSUnusedGlobalSymbols
+
+// @ts-ignore
+import {PluginObject} from "vue";
 
 //
 
@@ -118,7 +120,7 @@ interface VueAuth extends PluginObject<any> {
      *
      * @param  {any}     role - Set role/privilege to check.
      * @param  {string}  key  - Use a different key on the user object than the default defined in the default options.
-     * @return {boolean} 
+     * @return {boolean}
      */
     check(role?: any, key?: string): boolean;
 
@@ -142,7 +144,7 @@ interface VueAuth extends PluginObject<any> {
     /**
      * Fetch the user (again) allowing the users data to be reset (from the api).
      *
-     * @param  {FetchOptions} option - Set of options passed to http call.
+     * @param  {FetchOptions} options - Set of options passed to http call.
      * @return {Promise}
      */
     fetch(options: FetchOptions): Promise<any>;
@@ -151,7 +153,7 @@ interface VueAuth extends PluginObject<any> {
      * Refresh the app token from the backend api.
      * The options object is passed directly to the http method.
      *
-     * @param  {RefreshOptions} option - Set of options passed to http call.
+     * @param  {RefreshOptions} options - Set of options passed to http call.
      * @return {Promise}
      */
     refresh(options: RefreshOptions): Promise<any>;
@@ -234,7 +236,7 @@ interface VueAuth extends PluginObject<any> {
     disableImpersonate(): void;
 
     /**
-     * Re-enable impersonating mode. 
+     * Re-enable impersonating mode.
      *
      * @return {void}
      */
@@ -244,7 +246,84 @@ interface VueAuth extends PluginObject<any> {
 interface VueAuthCreateOptions {
     plugins: any,
     drivers: any,
-    options?: any,
+    options?: VueAuthCreateOptionsOptions,
+}
+
+interface VueAuthCreateOptionsOptions {
+    rolesKey?: string;
+    rememberKey?: string;
+    staySignedInKey?: string;
+    tokenDefaultKey?: string;
+    tokenImpersonateKey?: string;
+    stores?: Array<string>;
+    cookie?: {
+        Path?: string;
+        Domain?: null | string;
+        Secure?: boolean;
+        Expires?: number;
+        SameSite?: string;
+    };
+    authRedirect?: {
+        path?: string;
+    };
+    forbiddenRedirect?: {
+        path?: string;
+    };
+    notFoundRedirect?: {
+        path?: string;
+    };
+    registerData?: {
+        url?: string;
+        method?: string;
+        redirect?: string;
+        autoLogin?: boolean;
+    };
+    loginData?: {
+        url?: string;
+        method?: string;
+        redirect?: string;
+        fetchUser?: boolean;
+        staySignedIn?: boolean;
+    };
+    logoutData?: {
+        url?: string;
+        method?: string;
+        redirect?: string;
+        makeRequest?: boolean;
+    };
+    oauth2Data?: {
+        url?: string;
+        method?: string;
+        redirect?: string;
+        fetchUser?: boolean;
+    };
+    fetchData?: {
+        url?: string;
+        method?: string;
+        enabled?: boolean;
+    };
+    refreshData?: {
+        url?: string;
+        method?: string;
+        enabled?: boolean;
+        interval?: number;
+    };
+    impersonateData?: {
+        url?: string;
+        method?: string;
+        redirect?: string;
+        fetchUser?: boolean;
+    };
+    unimpersonateData?: {
+        url?: string;
+        method?: string;
+        redirect?: string;
+        fetchUser?: boolean;
+        makeRequest?: boolean;
+    };
+    getUrl?: Function;
+    getDomain?: Function;
+    parseUserData?: Function;
 }
 
 declare function createAuth(options: VueAuthCreateOptions): VueAuth & { install: (app: unknown) => void };

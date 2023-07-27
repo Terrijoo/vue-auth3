@@ -669,7 +669,12 @@
     };
     Auth.prototype.refresh = function (data) {
       data = extend(__auth.options.refreshData, data);
-      return __auth.drivers.http.http.call(__auth, data);
+      return new Promise(function (resolve, reject) {
+        __auth.drivers.http.http.call(__auth, data).then(function (res) {
+          _processFetch(_parseUserResponseData(res), data.redirect);
+          resolve(res);
+        }, reject);
+      });
     };
     Auth.prototype.register = function (data) {
       var registerData = extend(__auth.options.registerData, data);
