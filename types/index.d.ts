@@ -167,6 +167,12 @@ interface VueAuth extends PluginObject<any> {
     register(options: RegisterOptions): Promise<any>;
 
     /**
+     * set "staySignedIn" and triggers other handling
+     * @param val - If user should stay signed in or not
+     */
+    setStaySignedIn(val: boolean): void;
+
+    /**
      * Login call.
      *
      * @param  {LoginOptions} options - Set of options passed to http call.
