@@ -695,6 +695,9 @@
         }, reject);
       });
     };
+    Auth.prototype.setStaySignedIn = function (staySignedIn) {
+      _setStaySignedIn(staySignedIn);
+    };
     Auth.prototype.login = function (data) {
       data = extend(__auth.options.loginData, data);
       _setRemember(data.remember);

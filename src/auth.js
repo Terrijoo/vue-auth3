@@ -573,6 +573,10 @@ Auth.prototype.register = function (data) {
     });
 };
 
+Auth.prototype.setStaySignedIn = function (staySignedIn) {
+    _setStaySignedIn(staySignedIn);
+}
+
 Auth.prototype.login = function (data) {
     data = __utils.extend(__auth.options.loginData, data);
 
