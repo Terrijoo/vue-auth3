@@ -584,7 +584,6 @@ function _initRefreshInterval() {
     }, __auth.options.refreshData.interval * 1000 * 60); // In minutes.
   }
 }
-
 function _initInterceptors() {
   __auth.drivers.http.interceptor.call(__auth, _parseRequestIntercept, _parseResponseIntercept);
   __auth.drivers.router.beforeEach.call(__auth, _processRouterBeforeEach, _processTransitionEach, _setTransitions, _getAuthMeta);

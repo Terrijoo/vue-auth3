@@ -35,6 +35,6 @@
         "rollup": "^0.66.0",
         "rollup-plugin-babel": "^4.1.0",
         "rollup-plugin-replace": "^2.1.0",
-        "vue": "3.2.47"
+        "vue": "3.5.17"
     }
 }
