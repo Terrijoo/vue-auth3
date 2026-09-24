@@ -536,7 +536,10 @@ Auth.prototype.refresh = function (data) {
         __auth.drivers.http.http
             .call(__auth, data)
             .then(function(res) {
-                _processFetch(_parseUserResponseData(res), data.redirect);
+                const userData = _parseUserResponseData(res);
+                if (userData) {
+                  _processFetch(userData, data.redirect);
+                }
 
                 resolve(res);
             }, reject);
