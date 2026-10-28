@@ -13,29 +13,49 @@ var vueRouter_2_x = {
     }
   },
   beforeEach: function (routerBeforeEach, transitionEach, setTransitions, getAuthMeta) {
-    var _this = this;
-    this.plugins.router.beforeEach(function (transition, location, next) {
+    var _this = this,
+      router = this.plugins.router;
+    function processTransition(transition, done) {
       setTransitions(transition);
       routerBeforeEach.call(_this, function () {
         var auth = getAuthMeta(transition);
         transitionEach.call(_this, transition, auth, function (redirect) {
-          if (!redirect) {
-            (next || transition.next)();
-            return;
-          }
-
-          // router v2.x
-          if (next) {
-            next(redirect);
-          } else {
-            this.router._routerReplace.call(this, redirect);
-          }
+          done(redirect);
         });
+      });
+    }
+
+    // router v4.x+: the `next` callback is deprecated, so the guard must
+    // not declare a third argument and returns the result instead.
+    if (typeof router.isReady === 'function') {
+      router.beforeEach(function (transition) {
+        return new Promise(function (resolve) {
+          processTransition(transition, function (redirect) {
+            resolve(redirect || undefined);
+          });
+        });
+      });
+      return;
+    }
+    router.beforeEach(function (transition, location, next) {
+      processTransition(transition, function (redirect) {
+        if (!redirect) {
+          (next || transition.next)();
+          return;
+        }
+
+        // router v2.x / v3.x
+        if (next) {
+          next(redirect);
+        } else {
+          _this.drivers.router.routerReplace.call(_this, redirect);
+        }
       });
     });
   },
   routerReplace: function (data) {
-    this.plugins.router.replace.call(router, data);
+    var router = this.plugins.router;
+    router.replace.call(router, data);
   },
   routerGo: function (data) {
     var router = this.plugins.router;
